@@ -92,11 +92,9 @@ namespace Tetris
 		if(!figure.atInitialPos())
 		{
 			figure.dx--;
-            std::cout << "dx: " << figure.dx << " ";
 
             if(!validateFigurePos())
 				figure.dx++;
-            std::cout << figure.dx << std::endl;
 		}				
 	}
 

@@ -29,7 +29,7 @@ void Genetic::init() {
 
 Genetic::Button Genetic::activate(const Field& field) {
     GeneticField geneticField = createGeneticField(field);
-    printGeneticField(geneticField);
+//    printGeneticField(geneticField);
 
     // chromosome = [ l1_11 l1_21 .. l1_j1 l1_b1 ... l1_1s l1_2s .. l1_js l1_bs .....  ]
 
