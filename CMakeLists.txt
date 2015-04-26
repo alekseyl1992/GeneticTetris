@@ -28,4 +28,4 @@ add_executable(TetrisGenetic ${SOURCE_FILES} genetic/Chromosome.cpp
                                              genetic/Genetic.cpp
                                              genetic/Genetic.h
                                              main/GeneticMain.cpp
-                                             genetic/util.h)
+                                             genetic/util.h genetic/util.cpp)

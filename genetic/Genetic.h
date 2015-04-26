@@ -33,6 +33,7 @@ private:
     size_t chromosomeSize;
     double mutationProbability;
     Pool pool;
+    int currentChromosomeId;
 };
 
 #endif //TETRIS_GENETIC_H

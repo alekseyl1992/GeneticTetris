@@ -10,7 +10,8 @@ Genetic::Genetic(int populationSize, double mutationProbability)
     : populationSize(populationSize),
       nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}),
       chromosomeSize(0),
-      mutationProbability(mutationProbability) {
+      mutationProbability(mutationProbability),
+      currentChromosomeId(-1) {
     for (int i = 1; i < nnSizes.size(); ++i) {
         auto prevLayerSize = nnSizes[i - 1];
         auto layerSize = nnSizes[i];
@@ -20,10 +21,10 @@ Genetic::Genetic(int populationSize, double mutationProbability)
 
 void Genetic::init() {
     for (int i = 0; i < populationSize; ++i) {
-
         Chromosome chromosome = Chromosome::createRandom(chromosomeSize);
         pool.push_back(chromosome);
     }
+    currentChromosomeId = 0;
 }
 
 Genetic::Button Genetic::activate(const Field& field) {
@@ -31,7 +32,6 @@ Genetic::Button Genetic::activate(const Field& field) {
     printGeneticField(geneticField);
 
     // chromosome = [ l1_11 l1_21 .. l1_j1 l1_b1 ... l1_1s l1_2s .. l1_js l1_bs .....  ]
-    auto chromosome = std::make_shared<Chromosome>(chromosomeSize);
 
     typedef std::vector<double> vec;
     typedef std::shared_ptr<vec> vec_ptr;
@@ -50,10 +50,10 @@ Genetic::Button Genetic::activate(const Field& field) {
         vec& prevLayer = *prevLayer_p;
         for (int i = 0; i < layerSize; ++i) {
             for (int j = 0; j < prevLayerSize; ++j) {
-                layer[i] += chromosome->genome[c] * prevLayer[j];
+                layer[i] += pool[currentChromosomeId].genome[c] * prevLayer[j];
                 c += 1;
             }
-            layer[i] += chromosome->genome[c++];  // bias
+            layer[i] += pool[currentChromosomeId].genome[c++];  // bias
             layer[i] = std::atan(layer[i]);  // activate neuron
         }
 
@@ -81,7 +81,13 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 }
 
 void Genetic::step(int score) {
+    pool[currentChromosomeId++].fitness = score;
+    if (currentChromosomeId >= pool.size()) {  // end of generation
+        newGeneration();
+        currentChromosomeId = 0;
+    } else {
 
+    }
 }
 
 GeneticField Genetic::createGeneticField(const Field &field) {

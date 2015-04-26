@@ -2,14 +2,9 @@
 #define TETRIS_UTIL_H
 
 #include <cstdlib>
+#include <assert.h>
 
-double rand01() {
-    return static_cast<double>(std::rand()) / RAND_MAX;
-}
-
-int randAB(int a, int b) {
-    assert(a <= b);
-    return static_cast<int>(rand01() * (b - a) + a);
-}
+double rand01();
+int randAB(int a, int b);
 
 #endif //TETRIS_UTIL_H

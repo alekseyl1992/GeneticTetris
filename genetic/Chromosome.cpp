@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "Chromosome.h"
 #include "util.h"
 

@@ -8,10 +8,10 @@ int main()
 	genetic.init();
 
 	bool loop = true;
-//	while(loop) {
+	while(loop) {
 		int score = run(genetic);
 		genetic.step(score);
-//	}
+	}
 
 	return 0;
 }
