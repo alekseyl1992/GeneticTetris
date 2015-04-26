@@ -48,7 +48,7 @@ namespace Tetris
 	bool GeneticGame::input()
 	{
         std::this_thread::sleep_for(std::chrono::milliseconds(30));
-        Genetic::Button button = Genetic::Button::LEFT; //genetic.activate(field);
+        Genetic::Button button = genetic.activate(field);
 
 		switch(button)
 		{

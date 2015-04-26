@@ -2,14 +2,18 @@
 #define TETRIS_CHROMOSOME_H
 
 #include <vector>
+#include <cstdlib>
 
 using Genome = std::vector<double>;
 struct Chromosome {
     Genome genome;
     double fitness;
 
-    Chromosome(int size);
-    static Chromosome createRandom(int size);
+    Chromosome(size_t size);
+    void mutate(double mutationProbability);
+
+    static Chromosome createRandom(size_t size);
+    static Chromosome crossover(const Chromosome& c1, const Chromosome& c2);
 };
 
 

@@ -3,12 +3,14 @@
 #include <memory>
 #include <algorithm>
 #include "Genetic.h"
+#include "util.h"
 
 
-Genetic::Genetic(int populationSize)
+Genetic::Genetic(int populationSize, double mutationProbability)
     : populationSize(populationSize),
-      nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}) {
-    chromosomeSize = 0;
+      nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}),
+      chromosomeSize(0),
+      mutationProbability(mutationProbability) {
     for (int i = 1; i < nnSizes.size(); ++i) {
         auto prevLayerSize = nnSizes[i - 1];
         auto layerSize = nnSizes[i];
@@ -29,7 +31,7 @@ Genetic::Button Genetic::activate(const Field& field) {
     printGeneticField(geneticField);
 
     // chromosome = [ l1_11 l1_21 .. l1_j1 l1_b1 ... l1_1s l1_2s .. l1_js l1_bs .....  ]
-    Chromosome chromosome(chromosomeSize);
+    auto chromosome = std::make_shared<Chromosome>(chromosomeSize);
 
     typedef std::vector<double> vec;
     typedef std::shared_ptr<vec> vec_ptr;
@@ -44,14 +46,14 @@ Genetic::Button Genetic::activate(const Field& field) {
         int prevLayerSize = nnSizes[layerId - 1];
 
         layer_p = std::make_shared<vec>(layerSize);
-        std::vector<double>& layer = *layer_p;
-        std::vector<double>& prevLayer = *prevLayer_p;
+        vec& layer = *layer_p;
+        vec& prevLayer = *prevLayer_p;
         for (int i = 0; i < layerSize; ++i) {
             for (int j = 0; j < prevLayerSize; ++j) {
-                layer[i] += chromosome.genome[c] * prevLayer[j];
+                layer[i] += chromosome->genome[c] * prevLayer[j];
                 c += 1;
             }
-            layer[i] += chromosome.genome[c++];  // bias
+            layer[i] += chromosome->genome[c++];  // bias
             layer[i] = std::atan(layer[i]);  // activate neuron
         }
 
@@ -106,7 +108,7 @@ GeneticField Genetic::createGeneticField(const Field &field) {
     return geneticField;
 }
 
-std::vector<double> Genetic::geneticFieldToInput(GeneticField field) {
+std::vector<double> Genetic::geneticFieldToInput(const GeneticField& field) {
     std::vector<double> input(field.size() * field[0].size());
     for (int i = 0; i < field.size(); ++i) {
         for (int j = 0; j < field[i].size(); ++j) {
@@ -114,4 +116,18 @@ std::vector<double> Genetic::geneticFieldToInput(GeneticField field) {
         }
     }
     return input;
+}
+
+void Genetic::newGeneration() {
+    std::sort(pool.begin(), pool.end(), [](auto& lhs, auto& rhs) {
+        return lhs.fitness > rhs.fitness;
+    });
+
+    size_t middle = pool.size() / 2;
+    for (size_t i = middle; i < pool.size(); ++i) {
+        auto& c1 = pool[randAB(0, (int) middle)];
+        auto& c2 = pool[randAB(0, (int) middle)];
+        pool[i] = Chromosome::crossover(c1, c2);
+        pool[i].mutate(mutationProbability);
+    }
 }
