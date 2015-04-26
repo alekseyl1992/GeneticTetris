@@ -16,9 +16,16 @@ set(SOURCE_FILES
 
     )
 
-add_executable(TetrisConsole ${SOURCE_FILES} main/ConsoleMain.cpp console/ConsoleGame.cpp
-    console/ConsoleGame.h lib/port.h )
-add_executable(TetrisGenetic ${SOURCE_FILES} main/GeneticMain.cpp genetic/Chromosome.cpp genetic/Chromosome.h genetic/GeneticGame.cpp
-    genetic/GeneticGame.h
-    genetic/Genetic.cpp
-    genetic/Genetic.h)
+add_executable(TetrisConsole ${SOURCE_FILES} console/ConsoleGame.cpp
+                                             console/ConsoleGame.h
+                                             main/ConsoleMain.cpp
+                                             )
+
+add_executable(TetrisGenetic ${SOURCE_FILES} genetic/Chromosome.cpp
+                                             genetic/Chromosome.h
+                                             genetic/GeneticGame.cpp
+                                             genetic/GeneticGame.h
+                                             genetic/Genetic.cpp
+                                             genetic/Genetic.h
+                                             main/GeneticMain.cpp
+                                             )
