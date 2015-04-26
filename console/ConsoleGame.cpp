@@ -1,12 +1,7 @@
 #include "ConsoleGame.h"
 
 #include <iostream>
-#ifdef __linux__
-    #include "kbhit.h"
-#elif _WIN32
-	#include "windows.h"
-	#include <conio.h>
-#endif
+#include "lib/deps.h"
 using namespace std;
 
 namespace Tetris
@@ -28,7 +23,7 @@ namespace Tetris
 
 		while(input())
 		{	
-			time_t _delay = 10/(field.getScores()/7+1); // speed up every 7 scores
+			time_t _delay = 1000/(field.getScores()/7+1); // speed up every 7 scores
 			if(speedUp)
 				_delay /= 100;
 
@@ -89,7 +84,7 @@ namespace Tetris
 
 	void ConsoleGame::render()
 	{
-		system("cls");
+		CLEAR_CONSOLE();
 
 		cout << "----------" << endl;
 

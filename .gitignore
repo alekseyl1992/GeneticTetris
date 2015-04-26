@@ -1,5 +1,6 @@
 .idea/
 *.user
+build/
 
 # Compiled Object files
 *.slo

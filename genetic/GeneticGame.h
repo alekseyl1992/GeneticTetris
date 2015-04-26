@@ -1,7 +1,7 @@
 #pragma once
 #include "Genetic.h"
-#include "../IGame.h"
-#include "../Field.h"
+#include "IGame.h"
+#include "Field.h"
 
 namespace Tetris
 {

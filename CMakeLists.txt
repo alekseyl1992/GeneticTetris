@@ -7,16 +7,17 @@ include_directories(.)
 
 set(SOURCE_FILES
     lib/arduino_utils.h
+    lib/deps.h
     Field.cpp
     Field.h
     Figure.cpp
     Figure.h
     IGame.h
-    lib/kbhit.h
+
     )
 
 add_executable(TetrisConsole ${SOURCE_FILES} main/ConsoleMain.cpp console/ConsoleGame.cpp
-    console/ConsoleGame.h)
+    console/ConsoleGame.h lib/port.h )
 add_executable(TetrisGenetic ${SOURCE_FILES} main/GeneticMain.cpp genetic/Chromosome.cpp genetic/Chromosome.h genetic/GeneticGame.cpp
     genetic/GeneticGame.h
     genetic/Genetic.cpp

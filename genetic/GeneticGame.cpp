@@ -3,7 +3,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <Windows.h>
+
+#include "lib/deps.h"
+
 using namespace std;
 
 namespace Tetris
@@ -21,7 +23,7 @@ namespace Tetris
 
 	int GeneticGame::begin()
 	{
-		static time_t _time = GetTickCount();
+		static unsigned long long _time = static_cast<unsigned long long>(GetTickCount());
 
 		while(input() && !gameOver)
 		{	
@@ -77,7 +79,7 @@ namespace Tetris
 
 	void GeneticGame::render()
 	{
-		system("cls");
+		CLEAR_CONSOLE();
 
 		cout << "----------" << endl;
 
