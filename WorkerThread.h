@@ -17,7 +17,7 @@ class WorkerThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit WorkerThread(QObject *parent, int populationSize);
+    explicit WorkerThread(int populationSize, QObject *parent=nullptr);
     virtual void stop();
 
 private:

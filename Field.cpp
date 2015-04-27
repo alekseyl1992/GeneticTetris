@@ -144,12 +144,12 @@ namespace Tetris
 	void Field::moveAboveLinesLower(int fromLine)
 	{
 		// copy from matrix to the next line
-		for(int j=fromLine-1; j>0; --j)
-			for(int i=0; i<fieldWidth; ++i)
+        for(int j = fromLine - 1; j >= 0; --j)
+            for(int i = 0; i < fieldWidth; ++i)
 				field[i][j+1] = field[i][j];
 
 		// clear topmost line
-		for(int i=0; i<fieldWidth; ++i)
+        for(int i = 0; i < fieldWidth; ++i)
 			field[i][0] = 0;
 	}
 

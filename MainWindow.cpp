@@ -10,16 +10,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    int w = 8;
-    int h = 16;
+    constexpr int w = Field::fieldWidth;
+    constexpr int h = Field::fieldHeight;
 
     tableModel = new QStandardItemModel(h, w, this);
 
     for (int i = 0; i < w; ++i) {
         for (int j = 0; j < h; ++j) {
             QStandardItem *item = new QStandardItem("");
-            item->setBackground(QColor::fromRgb(0, 0, 255));
-
             tableModel->setItem(j, i, item);
         }
     }
@@ -27,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fieldView->setModel(tableModel);
     ui->fieldView->resizeColumnsToContents();
 
-    constexpr int linesCount = 20;
+    constexpr int chromosomesCount = 20;
     constexpr int colsCount = 2;
-    statsModel = new QStandardItemModel(linesCount, colsCount, this);
+    statsModel = new QStandardItemModel(chromosomesCount, colsCount, this);
 
-    for (int i = 0; i < linesCount; ++i) {
+    for (int i = 0; i < chromosomesCount; ++i) {
         for (int j = 0; j < colsCount; ++j) {
             QStandardItem *item = new QStandardItem("0");
             statsModel->setItem(i, j, item);
@@ -41,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qRegisterMetaType<Field>("Field");
 
-    workerThread = new WorkerThread(this, linesCount);
+    workerThread = new WorkerThread(chromosomesCount, this);
     workerThread->start();
 
     QObject::connect(workerThread,
@@ -84,5 +82,6 @@ void MainWindow::renderStats(int chromosomeId, int score, int gameStepsCount) {
 MainWindow::~MainWindow()
 {
     workerThread->stop();
+    workerThread->wait();
     delete ui;
 }

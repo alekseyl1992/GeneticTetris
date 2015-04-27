@@ -31,6 +31,7 @@ HEADERS  += MainWindow.h \
     genetic/GeneticGame.h \
     genetic/util.h \
     main/GeneticGame.h \
+    lib/deps.h \
     WorkerThread.h
 
 FORMS    += MainWindow.ui

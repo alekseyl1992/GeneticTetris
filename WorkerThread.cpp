@@ -1,6 +1,6 @@
 #include "WorkerThread.h"
 
-WorkerThread::WorkerThread(QObject *parent, int populationSize) :
+WorkerThread::WorkerThread(int populationSize, QObject *parent) :
     QThread(parent), populationSize(populationSize)
 {
 }
@@ -13,11 +13,11 @@ void WorkerThread::run()
     loop = true;
     while(loop) {
         GameResult result = gameRun(genetic);
-        genetic.step(result.scores, result.stepsCount);
-
         emit statsChanged(genetic.getCurrentChromosomeId(),
                           result.scores,
                           result.stepsCount);
+
+        genetic.step(result.scores, result.stepsCount);
     }
 }
 

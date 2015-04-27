@@ -24,7 +24,8 @@ namespace Tetris
 
 	int GeneticGame::begin()
 	{
-        time_t _time = GetTickCount();
+        using namespace std::chrono;
+        auto _time = steady_clock::now();
 
 		while(input() && !gameOver)
 		{	
@@ -32,14 +33,14 @@ namespace Tetris
 			if(speedUp)
 				_delay /= 100;
 
-			if(GetTickCount() - _time >= _delay)
+            if(steady_clock::now() - _time >= milliseconds(_delay))
 			{
 				if(!field.update()) // game over!
 					gameOver = true;
 
                 render();
 
-				_time = GetTickCount();
+                _time = steady_clock::now();
 			}
 		}
 
@@ -86,25 +87,5 @@ namespace Tetris
 	void GeneticGame::render()
 	{
         emit fieldChanged(field);
-
-//        for(int j = 0; j < Field::fieldHeight; ++j) {
-//            for(int i = 0; i < Field::fieldWidth; ++i) {
-//                auto item = tableModel->item(j, i);
-
-//                if(field.at(i, j))
-//                    item->setBackground(blockBrush);
-//                else
-//                    item->setBackground(emptyBrush);
-
-//                //emit tableModel->itemChanged(item);
-//            }
-//        }
-
-//		if(gameOver)
-//		{
-//			cout << endl;
-//			cout << "GeneticGame Over!" << endl;
-//			cout << "Scores: " << field.getScores() << endl;
-//        }
 	}
 }
