@@ -22,5 +22,6 @@ namespace Tetris
 		~GeneticGame();
 
 		int begin();
+        int getStepsCount() const;
 	};
 }

@@ -23,7 +23,7 @@ namespace Tetris
 
 	int GeneticGame::begin()
 	{
-		static unsigned long long _time = static_cast<unsigned long long>(GetTickCount());
+        time_t _time = GetTickCount();
 
 		while(input() && !gameOver)
 		{	
@@ -42,8 +42,13 @@ namespace Tetris
 			}
 		}
 
-		return field.getScores();
-	}
+        return field.getScores();
+    }
+
+    int GeneticGame::getStepsCount() const
+    {
+        return field.getStepsCount();
+    }
 
 	bool GeneticGame::input()
 	{
@@ -105,6 +110,9 @@ namespace Tetris
 			cout << endl;
 			cout << "GeneticGame Over!" << endl;
 			cout << "Scores: " << field.getScores() << endl;
-		}
+        } else {
+            // blink-free
+            cout << endl << endl << endl;
+        }
 	}
 }

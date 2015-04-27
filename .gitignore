@@ -1,6 +1,7 @@
 .idea/
 *.user
 build/
+CMakeFiles/
 
 # Compiled Object files
 *.slo

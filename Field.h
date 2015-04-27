@@ -14,7 +14,9 @@ namespace Tetris
 		#define each(i, j) for(int i=0; i<fieldWidth; ++i) for(int j=0; j<fieldHeight; ++j)
 
 		bool field[fieldWidth][fieldHeight];
-		int scores;
+        int scores = 0;
+        int stepsCount = 0;
+
 		Figure figure;
 
 
@@ -41,6 +43,7 @@ namespace Tetris
 		const Figure& getFigure() const;
 
 		int getScores() const;
+        int getStepsCount() const;
 	};
 
 }

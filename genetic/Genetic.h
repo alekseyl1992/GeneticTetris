@@ -19,7 +19,7 @@ public:
 
     Button activate(const Field& field);
     void init();
-    void step(int score);
+    void step(int score, int gameStepsCount);
 
     void newGeneration();
 

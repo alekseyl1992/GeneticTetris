@@ -12,6 +12,7 @@ Genetic::Genetic(int populationSize, double mutationProbability)
       chromosomeSize(0),
       mutationProbability(mutationProbability),
       currentChromosomeId(-1) {
+
     for (int i = 1; i < nnSizes.size(); ++i) {
         auto prevLayerSize = nnSizes[i - 1];
         auto layerSize = nnSizes[i];
@@ -64,8 +65,6 @@ Genetic::Button Genetic::activate(const Field& field) {
     auto result = std::max_element(layer_p->begin(), layer_p->end());
     int buttonId = std::distance(layer_p->begin(), result);
 
-    std::cout << "Button: " << buttonId << std::endl;
-
     return static_cast<Button>(buttonId);
 }
 
@@ -80,8 +79,10 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
     std::cout << std::endl;
 }
 
-void Genetic::step(int score) {
-    pool[currentChromosomeId++].fitness = score;
+void Genetic::step(int score, int gameStepsCount) {
+    constexpr int FACTOR = 100;
+    pool[currentChromosomeId++].fitness = score + gameStepsCount / FACTOR;
+
     if (currentChromosomeId >= pool.size()) {  // end of generation
         newGeneration();
         currentChromosomeId = 0;

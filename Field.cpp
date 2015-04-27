@@ -44,15 +44,13 @@ namespace Tetris
 
         bool valid = validateFigurePos();
 
-        std::cout << "Valid: " << valid << std::endl;
-
-        if(!valid)
-		{
+        if(valid) {
+            ++stepsCount;
+            return true;
+        } else {
 			figure.dy--; // rollback
 			return false;
 		}
-
-		return true;
 	}
 
 	bool Field::validateFigurePos()
@@ -60,26 +58,23 @@ namespace Tetris
         if(figure.atInitialPos()) // we are above the screen
 			return true;
 
-		for(int i=0; i<figureSize; ++i)
-			for(int j=0; j<figureSize; ++j)
-				if(figure.matrix[i][j] == 1)
-					if((j+figure.dy >= 0 && field[i+figure.dx][j+figure.dy] == 1) // collision?
-						|| j+figure.dy >= fieldHeight // end of field reached?
-						|| i+figure.dx < 0 || i+figure.dx >= fieldWidth) // out off screen to the left or right?
-							return false;
+        for(int i=0; i<figureSize; ++i)
+            for(int j=0; j<figureSize; ++j)
+                if(figure.matrix[i][j] == 1)
+                    if((j+figure.dy >= 0 && field[i+figure.dx][j+figure.dy] == 1) // collision?
+                        || j+figure.dy >= fieldHeight // end of field reached?
+                        || i+figure.dx < 0 || i+figure.dx >= fieldWidth) // out off screen to the left or right?
+                            return false;
 
-		return true;
+        return true;
 	}
 
 	void Field::freezeFigure()
 	{
-        std::cout << "Freezing..." << std::endl;
 		for(int i=0; i<figureSize; ++i)
 			for(int j=0; j<figureSize; ++j)
-				if(j+figure.dy >= 0) // it's possible when part of the figure is not exposed yet
+                if(i+figure.dx >= 0 && j+figure.dy >= 0) // it's possible when part of the figure is not exposed yet
 					field[i+figure.dx][j+figure.dy] |= figure.matrix[i][j];
-
-        std::cout << "Freezed" << std::endl;
 	}
 
 	bool Field::at(int i, int j) const
@@ -160,8 +155,13 @@ namespace Tetris
 
 	int Field::getScores() const
 	{
-		return scores;
-	}
+        return scores;
+    }
+
+    int Field::getStepsCount() const
+    {
+        return stepsCount;
+    }
 
 	const Figure &Field::getFigure() const {
 		return figure;

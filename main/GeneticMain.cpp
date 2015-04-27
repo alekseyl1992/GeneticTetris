@@ -1,6 +1,15 @@
 #include <genetic/GeneticGame.h>
 
-int run(Genetic& genetic);
+struct GameResult {
+    int scores = 0;
+    int stepsCount = 0;
+
+    GameResult(int scores, int stepsCount)
+        : scores(scores), stepsCount(stepsCount)
+    { }
+};
+
+GameResult run(Genetic& genetic);
 
 int main()
 {
@@ -9,14 +18,17 @@ int main()
 
 	bool loop = true;
 	while(loop) {
-		int score = run(genetic);
-		genetic.step(score);
+        GameResult result = run(genetic);
+        genetic.step(result.scores, result.stepsCount);
 	}
 
 	return 0;
 }
 
-int run(Genetic& genetic) {
+GameResult run(Genetic& genetic) {
 	Tetris::GeneticGame game(genetic);
-	return game.begin();
+    auto score = game.begin();
+    auto gameStepsCount = game.getStepsCount();
+
+    return {score, gameStepsCount};
 }

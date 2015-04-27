@@ -29,7 +29,7 @@
 
 	#ifndef CLEAR_CONSOLE
 		#define CLEAR_CONSOLE() STMT_BEGIN {  \
-			system("cls");                    \
+            system("cls");                    \
 		} STMT_END
 	#endif
 #endif
