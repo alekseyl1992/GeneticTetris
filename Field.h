@@ -14,10 +14,10 @@ namespace Tetris
 		#define each(i, j) for(int i=0; i<fieldWidth; ++i) for(int j=0; j<fieldHeight; ++j)
 
 		bool field[fieldWidth][fieldHeight];
+        Figure figure;
+
         int scores = 0;
         int stepsCount = 0;
-
-		Figure figure;
 
 
 		bool tryStep();

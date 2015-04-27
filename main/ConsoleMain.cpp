@@ -1,6 +1,6 @@
 #include <console/ConsoleGame.h>
 
-int main() {
+int consoleMain() {
 	Tetris::ConsoleGame game;
 	game.begin();
 

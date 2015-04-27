@@ -27,6 +27,8 @@ public:
     void printGeneticField(GeneticField &geneticField);
     std::vector<double> geneticFieldToInput(const GeneticField& field);
 
+    int getCurrentChromosomeId() const;
+
 private:
     int populationSize;
     std::vector<int> nnSizes;

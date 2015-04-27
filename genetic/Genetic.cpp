@@ -81,7 +81,7 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 
 void Genetic::step(int score, int gameStepsCount) {
     constexpr double FACTOR = 100.0d;
-    pool[currentChromosomeId++].fitness = double(score)
+    pool[currentChromosomeId++].fitness = double(score) * 10
             + double(gameStepsCount) / FACTOR;
 
     if (currentChromosomeId >= pool.size()) {  // end of generation
@@ -125,12 +125,16 @@ std::vector<double> Genetic::geneticFieldToInput(const GeneticField& field) {
     }
     return input;
 }
+int Genetic::getCurrentChromosomeId() const
+{
+    return currentChromosomeId;
+}
 
 void Genetic::newGeneration() {
     std::sort(pool.begin(), pool.end(), [](auto& lhs, auto& rhs) {
         return lhs.fitness > rhs.fitness;
     });
-
+    
     size_t middle = pool.size() / 2;
     for (size_t i = middle; i < pool.size(); ++i) {
         auto& c1 = pool[randAB(0, (int) middle)];

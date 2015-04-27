@@ -13,7 +13,7 @@ namespace Tetris
 
 	void Figure::generate()
 	{
-        int id = rand() % figuresCount;
+        int id = 0; //rand() % figuresCount;
 
 		for (int i = 0; i < figureSize; ++i)
 			for (int j = 0; j < figureSize; ++j)
@@ -63,7 +63,7 @@ namespace Tetris
 		return dy == -figureSize+1;
 	}
 
-	const bool Figure::at(int i, int j) const {
+    bool Figure::at(int i, int j) const {
 		return matrix[i][j];
 	}
 }

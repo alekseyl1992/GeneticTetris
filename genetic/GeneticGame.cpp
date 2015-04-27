@@ -10,8 +10,9 @@ using namespace std;
 
 namespace Tetris
 {
-	GeneticGame::GeneticGame(Genetic& genetic)
-		: speedUp(false), gameOver(false), genetic(genetic)
+    GeneticGame::GeneticGame(Genetic& genetic)
+        : speedUp(false), gameOver(false),
+          genetic(genetic)
 	{
 
 	}
@@ -52,7 +53,7 @@ namespace Tetris
 
 	bool GeneticGame::input()
 	{
-        //std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         Genetic::Button button = genetic.activate(field);
 
 		switch(button)
@@ -84,35 +85,26 @@ namespace Tetris
 
 	void GeneticGame::render()
 	{
-		CLEAR_CONSOLE();
+        emit fieldChanged(field);
 
-		cout << "----------" << endl;
+//        for(int j = 0; j < Field::fieldHeight; ++j) {
+//            for(int i = 0; i < Field::fieldWidth; ++i) {
+//                auto item = tableModel->item(j, i);
 
-		for(int j=0; j<Field::fieldHeight; ++j)
-		{
-			cout << '|';
+//                if(field.at(i, j))
+//                    item->setBackground(blockBrush);
+//                else
+//                    item->setBackground(emptyBrush);
 
-			for(int i=0; i<Field::fieldWidth; ++i)
-			{
-				if(field.at(i, j))
-					cout << "#";
-				else
-					cout << " ";
-			}
+//                //emit tableModel->itemChanged(item);
+//            }
+//        }
 
-			cout << '|' << endl;
-		}
-
-		cout << "----------" << endl;
-
-		if(gameOver)
-		{
-			cout << endl;
-			cout << "GeneticGame Over!" << endl;
-			cout << "Scores: " << field.getScores() << endl;
-        } else {
-            // blink-free
-            cout << endl << endl << endl;
-        }
+//		if(gameOver)
+//		{
+//			cout << endl;
+//			cout << "GeneticGame Over!" << endl;
+//			cout << "Scores: " << field.getScores() << endl;
+//        }
 	}
 }

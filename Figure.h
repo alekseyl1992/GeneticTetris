@@ -46,7 +46,7 @@ namespace Tetris
 		bool collidesWith(int fi, int fj) const; // fi, fj - field coordinates
 		bool atInitialPos() const;
 
-		const bool at(int i, int j) const;
+        bool at(int i, int j) const;
 	};
 }
 
