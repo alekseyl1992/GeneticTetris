@@ -27,7 +27,7 @@ namespace Tetris
 
 		while(input() && !gameOver)
 		{	
-			time_t _delay = 10/(field.getScores()/7+1); // speed up every 7 scores
+            time_t _delay = 10/(field.getScores()/7+1); // speed up every 7 scores
 			if(speedUp)
 				_delay /= 100;
 
@@ -52,7 +52,7 @@ namespace Tetris
 
 	bool GeneticGame::input()
 	{
-        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(30));
         Genetic::Button button = genetic.activate(field);
 
 		switch(button)

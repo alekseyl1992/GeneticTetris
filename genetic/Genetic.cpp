@@ -80,8 +80,9 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 }
 
 void Genetic::step(int score, int gameStepsCount) {
-    constexpr int FACTOR = 100;
-    pool[currentChromosomeId++].fitness = score + gameStepsCount / FACTOR;
+    constexpr double FACTOR = 100.0d;
+    pool[currentChromosomeId++].fitness = double(score)
+            + double(gameStepsCount) / FACTOR;
 
     if (currentChromosomeId >= pool.size()) {  // end of generation
         newGeneration();
