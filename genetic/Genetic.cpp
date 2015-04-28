@@ -130,7 +130,7 @@ GeneticField Genetic::createGeneticField(const Field &field) {
     for (int i = 0; i < figureSize; ++i) {
         for (int j = 0; j < figureSize; ++j) {
             if (figure.at(i, j)
-                    &&figure.dx + i >= 0
+                    && figure.dx + i >= 0
                     && figure.dy + j >= 0
                     && figure.dx + i < Field::fieldWidth
                     && figure.dy + j < Field::fieldHeight) {
@@ -138,6 +138,8 @@ GeneticField Genetic::createGeneticField(const Field &field) {
             }
         }
     }
+
+    printGeneticField(geneticField);
 
     return geneticField;
 }
