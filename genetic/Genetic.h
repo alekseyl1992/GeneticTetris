@@ -21,6 +21,8 @@ public:
     void init();
     void step(int score, int gameStepsCount);
 
+    void clone(const Chromosome& chromosome, int insertPos);
+
     void newGeneration();
 
     GeneticField createGeneticField(Field const &field);
@@ -36,6 +38,8 @@ private:
     double mutationProbability;
     Pool pool;
     int currentChromosomeId;
+
+    int maxScores = 0;
 };
 
 #endif //TETRIS_GENETIC_H

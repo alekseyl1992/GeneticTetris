@@ -80,6 +80,19 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 }
 
 void Genetic::step(int score, int gameStepsCount) {
+    if (score >= maxScores) {
+        maxScores = score;
+
+        // clone the champion
+        int replacePos = pool.size() - 1;
+        constexpr int clonesCount = 3;
+
+        for (int i = 0; i < clonesCount; ++i) {
+            auto champion = pool[currentChromosomeId];
+            clone(champion, replacePos--);
+        }
+    }
+
     constexpr double FACTOR = 100.0d;
     pool[currentChromosomeId++].fitness = double(score) * 10
             + double(gameStepsCount) / FACTOR;
@@ -90,6 +103,13 @@ void Genetic::step(int score, int gameStepsCount) {
     } else {
 
     }
+}
+
+void Genetic::clone(const Chromosome& chromosome, int insertPos) {
+    Chromosome clone = chromosome;
+    clone.mutate(.1/.100);
+
+    pool[insertPos] = chromosome;
 }
 
 GeneticField Genetic::createGeneticField(const Field &field) {
@@ -114,7 +134,7 @@ GeneticField Genetic::createGeneticField(const Field &field) {
                     && figure.dy + j >= 0
                     && figure.dx + i < Field::fieldWidth
                     && figure.dy + j < Field::fieldHeight) {
-                geneticField[figure.dx + i][figure.dy + j] = 2;
+                geneticField[figure.dy + j][figure.dx + i] = 2;
             }
         }
     }
