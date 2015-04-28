@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fieldView->setModel(tableModel);
     ui->fieldView->resizeColumnsToContents();
 
-    constexpr int chromosomesCount = 20;
+    constexpr int chromosomesCount = 50;
     constexpr int colsCount = 3;
     statsModel = new QStandardItemModel(chromosomesCount, colsCount, this);
 

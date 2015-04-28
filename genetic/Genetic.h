@@ -25,6 +25,7 @@ public:
     void clone(const Chromosome& chromosome, int insertPos);
 
     void newGeneration();
+    void newGeneration2();
 
     GeneticField createGeneticField(Field const &field);
     void printGeneticField(GeneticField &geneticField);

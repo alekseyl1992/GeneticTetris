@@ -10,7 +10,9 @@ struct Chromosome {
     double fitness;
 
     Chromosome(size_t size);
-    void mutate(double mutationProbability);
+    Chromosome clone();
+    Chromosome& mutate(double mutationProbability);
+    Chromosome& mutateShuffle(double shufflePercent);
 
     static Chromosome createRandom(size_t size);
     static Chromosome crossover(const Chromosome& c1, const Chromosome& c2);

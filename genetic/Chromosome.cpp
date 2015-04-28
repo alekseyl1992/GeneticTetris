@@ -6,6 +6,11 @@ Chromosome::Chromosome(size_t size)
 
 }
 
+Chromosome Chromosome::clone() {
+    Chromosome ch(*this);
+    return ch;
+}
+
 Chromosome Chromosome::createRandom(size_t size) {
     Chromosome chromosome(size);
 
@@ -17,13 +22,23 @@ Chromosome Chromosome::createRandom(size_t size) {
     return chromosome;
 }
 
-void Chromosome::mutate(double mutationProbability) {
+Chromosome &Chromosome::mutate(double mutationProbability) {
     for (int i = 0; i < genome.size(); ++i) {
         auto rand = rand01();
         if (rand < mutationProbability) {
             genome[i] = rand * 2 - 1;
         }
     }
+    return *this;
+}
+
+Chromosome& Chromosome::mutateShuffle(double shufflePercent) {
+    for (int k = 0; k < (int) shufflePercent * genome.size(); ++k) {
+        int i = randAB(0, genome.size());
+        int j = randAB(0, genome.size());
+        std::swap(genome[i], genome[j]);
+    }
+    return *this;
 }
 
 Chromosome Chromosome::crossover(const Chromosome& c1, const Chromosome& c2) {

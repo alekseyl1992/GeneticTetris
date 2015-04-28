@@ -27,22 +27,14 @@ namespace Tetris
         using namespace std::chrono;
         auto _time = steady_clock::now();
 
-		while(input() && !gameOver)
-		{	
-            time_t _delay = 10/(field.getScores()/7+1); // speed up every 7 scores
-			if(speedUp)
-				_delay /= 100;
+        while(!gameOver)
+        {
+            for (int i = 0; i < 5; ++i)
+                input();
 
-            if(steady_clock::now() - _time >= milliseconds(_delay))
-			{
-				if(!field.update()) // game over!
-					gameOver = true;
-
-                render();
-
-                _time = steady_clock::now();
-			}
-		}
+            gameOver = !field.update();
+            render();
+        }
 
         return field.getScores();
     }
@@ -54,7 +46,7 @@ namespace Tetris
 
 	bool GeneticGame::input()
 	{
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+//        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         Genetic::Button button = genetic.activate(field);
 
 		switch(button)

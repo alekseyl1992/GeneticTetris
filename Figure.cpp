@@ -13,7 +13,7 @@ namespace Tetris
 
 	void Figure::generate()
 	{
-        int id = 0; //rand() % figuresCount;
+        int id = 4; //rand() % figuresCount;
 
 		for (int i = 0; i < figureSize; ++i)
 			for (int j = 0; j < figureSize; ++j)

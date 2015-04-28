@@ -13,7 +13,7 @@ Genetic::Genetic(int populationSize, double mutationProbability)
       mutationProbability(mutationProbability),
       currentChromosomeId(-1) {
 
-    for (int i = 1; i < nnSizes.size(); ++i) {
+    for (size_t i = 1; i < nnSizes.size(); ++i) {
         auto prevLayerSize = nnSizes[i - 1];
         auto layerSize = nnSizes[i];
         chromosomeSize += (prevLayerSize + 1) * layerSize;
@@ -42,7 +42,7 @@ Genetic::Button Genetic::activate(const Field& field) {
     vec_ptr prevLayer_p = std::make_shared<vec>(input);
 
     int c = 0;
-    for (int layerId = 1; layerId < nnSizes.size(); ++layerId) {
+    for (size_t layerId = 1; layerId < nnSizes.size(); ++layerId) {
         int layerSize = nnSizes[layerId];
         int prevLayerSize = nnSizes[layerId - 1];
 
@@ -70,8 +70,8 @@ Genetic::Button Genetic::activate(const Field& field) {
 
 void Genetic::printGeneticField(GeneticField &geneticField) {
     std::cout << "=================================" << std::endl;
-    for (int i = 0; i < geneticField.size(); ++i) {
-        for (int j = 0; j < geneticField[i].size(); ++j) {
+    for (size_t i = 0; i < geneticField.size(); ++i) {
+        for (size_t j = 0; j < geneticField[i].size(); ++j) {
             std::cout << geneticField[i][j] << " ";
         }
         std::cout << std::endl;
@@ -82,10 +82,12 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 double Genetic::evalFitness(int score, int gameStepsCount, const Field &field) {
     auto geneticField = createGeneticField(field);
     double nonZeroAvg = 0.0;
+    assert(Field::fieldHeight == geneticField.size());
     for (size_t i = 0; i < Field::fieldHeight; ++i) {
         double avg = 0.0;
+        assert(Field::fieldWidth == geneticField[i].size());
         for (size_t j = 0; j < Field::fieldWidth; ++j) {
-            if (geneticField[j][i] != 0) {
+            if (geneticField[i][j] != 0) {
                 ++avg;
             }
         }
@@ -98,22 +100,21 @@ double Genetic::evalFitness(int score, int gameStepsCount, const Field &field) {
 }
 
 void Genetic::step(double score, double fitness) {
-    if (score >= maxScores && score != 0) {
-        maxScores = score;
+    pool[currentChromosomeId].fitness = fitness;
+//    if (score >= maxScores && score != 0) {
+//        maxScores = score;
 
-        // clone the champion
-        int replacePos = pool.size() - 1;
-        constexpr int clonesCount = 3;
+//        // clone the champion
+//        int replacePos = pool.size() - 1;
+//        constexpr int clonesCount = 3;
 
-        for (int i = 0; i < clonesCount; ++i) {
-            auto champion = pool[currentChromosomeId];
-            clone(champion, replacePos--);
-        }
-    }
+//        for (int i = 0; i < clonesCount; ++i) {
+//            auto champion = pool[currentChromosomeId];
+//            clone(champion, replacePos--);
+//        }
+//    }
 
-    pool[currentChromosomeId++].fitness = fitness;
-
-    if (currentChromosomeId >= pool.size()) {  // end of generation
+    if (++currentChromosomeId >= (int) pool.size()) {  // end of generation
         newGeneration();
         currentChromosomeId = 0;
     } else {
@@ -162,8 +163,8 @@ GeneticField Genetic::createGeneticField(const Field &field) {
 
 std::vector<double> Genetic::geneticFieldToInput(const GeneticField& field) {
     std::vector<double> input(field.size() * field[0].size());
-    for (int i = 0; i < field.size(); ++i) {
-        for (int j = 0; j < field[i].size(); ++j) {
+    for (size_t i = 0; i < field.size(); ++i) {
+        for (size_t j = 0; j < field[i].size(); ++j) {
             input[i * field[i].size() + j] = static_cast<double>(field[i][j]);
         }
     }
@@ -185,5 +186,23 @@ void Genetic::newGeneration() {
         auto& c2 = pool[randAB(0, (int) middle)];
         pool[i] = Chromosome::crossover(c1, c2);
         pool[i].mutate(mutationProbability);
+    }
+}
+
+void Genetic::newGeneration2() {
+    std::sort(pool.begin(), pool.end(), [](auto& lhs, auto& rhs) {
+        return lhs.fitness > rhs.fitness;
+    });
+
+    size_t middle = pool.size() / 2;
+    size_t j = 0;
+    for (size_t i = middle; i < pool.size(); ++i) {
+        auto& c1 = pool[j];
+        auto c1Clone = c1.clone();
+        pool[i] = c1Clone.mutateShuffle(0.3);
+        if (rand01() < 0.08) {
+            pool[j].mutateShuffle(0.3);
+        }
+        ++j;
     }
 }
