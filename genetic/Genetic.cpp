@@ -101,18 +101,18 @@ void Genetic::step(int score, double fitness) {
     pool[currentChromosomeId].fitness = fitness;
     pool[currentChromosomeId].score = score;
 
-    if (score >= maxScores && score != 0) {
-        maxScores = score;
+//    if (score >= maxScores && score != 0) {
+//        maxScores = score;
 
-        // clone the champion
-        int replacePos = pool.size() - 1;
-        constexpr int clonesCount = 3;
+//        // clone the champion
+//        int replacePos = pool.size() - 1;
+//        constexpr int clonesCount = 3;
 
-        for (int i = 0; i < clonesCount; ++i) {
-            auto champion = pool[currentChromosomeId];
-            clone(champion, replacePos--);
-        }
-    }
+//        for (int i = 0; i < clonesCount; ++i) {
+//            auto champion = pool[currentChromosomeId];
+//            clone(champion, replacePos--);
+//        }
+//    }
 
     if (++currentChromosomeId >= pool.size()) {  // end of generation
         newGeneration();
@@ -185,8 +185,9 @@ void Genetic::newGeneration() {
     
     size_t middle = pool.size() / 2;
     for (size_t i = middle; i < pool.size(); ++i) {
-        auto& c1 = pool[randAB(0, (int) middle)];
-        auto& c2 = pool[randAB(0, (int) middle)];
+        // HERE
+        auto& c1 = pool[randABexp(0, (int) middle)];
+        auto& c2 = pool[randABexp(0, (int) middle)];
         pool[i] = Chromosome::crossover(c1, c2);
         pool[i].mutate(mutationProbability);
     }

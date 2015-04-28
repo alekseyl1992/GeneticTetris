@@ -6,5 +6,6 @@
 
 double rand01();
 int randAB(int a, int b);
+int randABexp(int a, int b);
 
 #endif //TETRIS_UTIL_H
