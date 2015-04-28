@@ -8,7 +8,7 @@
 
 Genetic::Genetic(int populationSize, double mutationProbability)
     : populationSize(populationSize),
-      nnSizes({Field::fieldWidth * Field::fieldHeight, 120, 50, 10, (int) Button::_COUNT}),
+      nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}),
       chromosomeSize(0),
       mutationProbability(mutationProbability),
       currentChromosomeId(-1) {
@@ -87,7 +87,7 @@ double Genetic::evalFitness(int score, int gameStepsCount, const Field &field) {
         double avg = 0.0;
         assert(Field::fieldWidth == geneticField[i].size());
         for (size_t j = 0; j < Field::fieldWidth; ++j) {
-            if (geneticField[i][j] != 0) {
+            if (geneticField.at(i).at(j) != 0) {
                 ++avg;
             }
         }
@@ -99,8 +99,10 @@ double Genetic::evalFitness(int score, int gameStepsCount, const Field &field) {
     return 0.7 * double(score) + 0.3 * nonZeroAvg;
 }
 
-void Genetic::step(double score, double fitness) {
+void Genetic::step(int score, double fitness) {
     pool[currentChromosomeId].fitness = fitness;
+    pool[currentChromosomeId].score = score;
+
 //    if (score >= maxScores && score != 0) {
 //        maxScores = score;
 
@@ -114,17 +116,15 @@ void Genetic::step(double score, double fitness) {
 //        }
 //    }
 
-    if (++currentChromosomeId >= (int) pool.size()) {  // end of generation
+    if (++currentChromosomeId >= pool.size()) {  // end of generation
         newGeneration();
         currentChromosomeId = 0;
-    } else {
-
     }
 }
 
 void Genetic::clone(const Chromosome& chromosome, int insertPos) {
     Chromosome clone = chromosome;
-    clone.mutate(.1/.100);
+    clone.mutate(1./100.);
 
     pool[insertPos] = clone;
 }
@@ -175,6 +175,11 @@ int Genetic::getCurrentChromosomeId() const
     return currentChromosomeId;
 }
 
+const Pool &Genetic::getPopulation() const
+{
+    return pool;
+}
+
 void Genetic::newGeneration() {
     std::sort(pool.begin(), pool.end(), [](auto& lhs, auto& rhs) {
         return lhs.fitness > rhs.fitness;
@@ -182,8 +187,9 @@ void Genetic::newGeneration() {
     
     size_t middle = pool.size() / 2;
     for (size_t i = middle; i < pool.size(); ++i) {
-        auto& c1 = pool[randAB(0, (int) middle)];
-        auto& c2 = pool[randAB(0, (int) middle)];
+        // HERE
+        auto& c1 = pool[randABexp(0, (int) middle)];
+        auto& c2 = pool[randABexp(0, (int) middle)];
         pool[i] = Chromosome::crossover(c1, c2);
         pool[i].mutate(mutationProbability);
     }

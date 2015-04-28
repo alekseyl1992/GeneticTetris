@@ -32,7 +32,7 @@ private:
 
 public slots:
     void renderField(const Field& field);
-    void renderStats(int chromosomeId, int score, int gameStepsCount, double fitness);
+    void renderStats(const Pool &pool);
 };
 
 #endif // MAINWINDOW_H

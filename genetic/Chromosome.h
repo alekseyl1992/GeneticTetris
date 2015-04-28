@@ -7,6 +7,7 @@
 using Genome = std::vector<double>;
 struct Chromosome {
     Genome genome;
+    int score;
     double fitness;
 
     Chromosome(size_t size);

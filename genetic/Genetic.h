@@ -20,7 +20,7 @@ public:
     Button activate(const Field& field);
     void init();
     double evalFitness(int score, int gameStepsCount, const Field& field);
-    void step(double score, double fitness);
+    void step(int score, double fitness);
 
     void clone(const Chromosome& chromosome, int insertPos);
 
@@ -32,6 +32,7 @@ public:
     std::vector<double> geneticFieldToInput(const GeneticField& field);
 
     int getCurrentChromosomeId() const;
+    const Pool& getPopulation() const;
 
 private:
     int populationSize;

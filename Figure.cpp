@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <memory.h>
+#include <vector>
+#include "genetic/util.h"
 
 namespace Tetris
 {
@@ -12,12 +14,16 @@ namespace Tetris
     }
 
 	void Figure::generate()
-	{
-        int id = 4; //rand() % figuresCount;
+    {
+        std::vector<int> figuresOrder = {0, 1, 2, 3, 4};
+        static int id = 0;
+
+        int curId = id++ % figuresOrder.size();
+        //int curId = randAB(0, 5);
 
 		for (int i = 0; i < figureSize; ++i)
 			for (int j = 0; j < figureSize; ++j)
-				matrix[i][j] = figures[id][i][j];
+                matrix[i][j] = figures[curId][i][j];
 
 		dx = fieldWidth/2 - figureSize/2;
 		dy = -figureSize+1; //off screen by 1 step
