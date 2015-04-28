@@ -7,9 +7,10 @@
 struct GameResult {
     int scores = 0;
     int stepsCount = 0;
+    double fitness = 0.0;
 
-    GameResult(int scores, int stepsCount)
-        : scores(scores), stepsCount(stepsCount)
+    GameResult(int scores, int stepsCount, double fitness)
+        : scores(scores), stepsCount(stepsCount), fitness(fitness)
     { }
 };
 
@@ -30,7 +31,7 @@ protected:
 
 signals:
     void fieldChanged(const Field& field);
-    void statsChanged(int chromosomeId, int score, int gameStepsCount);
+    void statsChanged(int chromosomeId, int score, int gameStepsCount, double fitness);
 
 public slots:
 

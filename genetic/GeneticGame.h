@@ -27,6 +27,7 @@ namespace Tetris
 
 		int begin();
         int getStepsCount() const;
+        const Field& getField() const;
 
     signals:
         void fieldChanged(const Field& field);

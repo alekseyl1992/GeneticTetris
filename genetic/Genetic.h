@@ -19,7 +19,8 @@ public:
 
     Button activate(const Field& field);
     void init();
-    void step(int score, int gameStepsCount);
+    double evalFitness(int score, int gameStepsCount, const Field& field);
+    void step(double fitness);
 
     void clone(const Chromosome& chromosome, int insertPos);
 
