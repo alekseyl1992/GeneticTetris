@@ -13,10 +13,7 @@ void WorkerThread::run()
     loop = true;
     while(loop) {
         GameResult result = gameRun(genetic);
-        emit statsChanged(genetic.getCurrentChromosomeId(),
-                          result.scores,
-                          result.stepsCount,
-                          result.fitness);
+        emit statsChanged(genetic.getPopulation());
 
         genetic.step(result.scores, result.fitness);
     }

@@ -1,10 +1,16 @@
 #include "util.h"
+#include <random>
 
 double rand01() {
-    return static_cast<double>(std::rand()) / RAND_MAX;
+    static std::default_random_engine generator;
+
+    std::uniform_real_distribution<double> distribution(0, 1);
+    return distribution(generator);
 }
 
 int randAB(int a, int b) {
-    assert(a <= b);
-    return static_cast<int>(rand01() * (b - a) + a);
+    static std::default_random_engine generator;
+
+    std::uniform_int_distribution<int> distribution(a, b - 1);
+    return distribution(generator);
 }

@@ -31,7 +31,7 @@ protected:
 
 signals:
     void fieldChanged(const Field& field);
-    void statsChanged(int chromosomeId, int score, int gameStepsCount, double fitness);
+    void statsChanged(const Pool& pool);
 
 public slots:
 
