@@ -80,7 +80,7 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
 }
 
 void Genetic::step(int score, int gameStepsCount) {
-    if (score >= maxScores) {
+    if (score >= maxScores && score != 0) {
         maxScores = score;
 
         // clone the champion
@@ -109,7 +109,7 @@ void Genetic::clone(const Chromosome& chromosome, int insertPos) {
     Chromosome clone = chromosome;
     clone.mutate(.1/.100);
 
-    pool[insertPos] = chromosome;
+    pool[insertPos] = clone;
 }
 
 GeneticField Genetic::createGeneticField(const Field &field) {
@@ -139,7 +139,7 @@ GeneticField Genetic::createGeneticField(const Field &field) {
         }
     }
 
-    printGeneticField(geneticField);
+    //printGeneticField(geneticField);
 
     return geneticField;
 }
