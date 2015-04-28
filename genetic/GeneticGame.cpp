@@ -88,4 +88,8 @@ namespace Tetris
 	{
         emit fieldChanged(field);
 	}
+
+    const Field& GeneticGame::getField() const {
+        return field;
+    }
 }

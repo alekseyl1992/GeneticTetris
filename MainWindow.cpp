@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fieldView->resizeColumnsToContents();
 
     constexpr int chromosomesCount = 20;
-    constexpr int colsCount = 2;
+    constexpr int colsCount = 3;
     statsModel = new QStandardItemModel(chromosomesCount, colsCount, this);
 
     for (int i = 0; i < chromosomesCount; ++i) {
@@ -69,12 +69,15 @@ void MainWindow::renderField(const Field& field) {
     ui->fieldView->repaint();
 }
 
-void MainWindow::renderStats(int chromosomeId, int score, int gameStepsCount) {
+void MainWindow::renderStats(int chromosomeId, int score, int gameStepsCount, double fitness) {
     auto scoreItem = statsModel->item(chromosomeId, 0);
     scoreItem->setText(QString::number(score));
 
     auto gameStepsCountItem = statsModel->item(chromosomeId, 1);
     gameStepsCountItem->setText(QString::number(gameStepsCount));
+
+    auto fitnessItem = statsModel->item(chromosomeId, 2);
+    fitnessItem->setText(QString::number(fitness));
 
     ui->statsView->repaint();
 }

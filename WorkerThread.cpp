@@ -15,9 +15,10 @@ void WorkerThread::run()
         GameResult result = gameRun(genetic);
         emit statsChanged(genetic.getCurrentChromosomeId(),
                           result.scores,
-                          result.stepsCount);
+                          result.stepsCount,
+                          result.fitness);
 
-        genetic.step(result.scores, result.stepsCount);
+        genetic.step(result.scores, result.fitness);
     }
 }
 
@@ -36,6 +37,7 @@ GameResult WorkerThread::gameRun(Genetic& genetic) {
 
     auto score = game.begin();
     auto gameStepsCount = game.getStepsCount();
+    auto fitness = genetic.evalFitness(score, gameStepsCount, game.getField());
 
-    return {score, gameStepsCount};
+    return {score, gameStepsCount, fitness};
 }

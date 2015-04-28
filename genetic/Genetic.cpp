@@ -8,7 +8,7 @@
 
 Genetic::Genetic(int populationSize, double mutationProbability)
     : populationSize(populationSize),
-      nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}),
+      nnSizes({Field::fieldWidth * Field::fieldHeight, 120, 50, 10, (int) Button::_COUNT}),
       chromosomeSize(0),
       mutationProbability(mutationProbability),
       currentChromosomeId(-1) {
@@ -79,7 +79,25 @@ void Genetic::printGeneticField(GeneticField &geneticField) {
     std::cout << std::endl;
 }
 
-void Genetic::step(int score, int gameStepsCount) {
+double Genetic::evalFitness(int score, int gameStepsCount, const Field &field) {
+    auto geneticField = createGeneticField(field);
+    double nonZeroAvg = 0.0;
+    for (size_t i = 0; i < Field::fieldHeight; ++i) {
+        double avg = 0.0;
+        for (size_t j = 0; j < Field::fieldWidth; ++j) {
+            if (geneticField[j][i] != 0) {
+                ++avg;
+            }
+        }
+        nonZeroAvg += avg / Field::fieldWidth;
+    }
+    nonZeroAvg /= Field::fieldHeight;
+    constexpr double FACTOR = 100.0d;
+//    return double(score) * 10 + double(gameStepsCount) / FACTOR;
+    return 0.7 * double(score) + 0.3 * nonZeroAvg;
+}
+
+void Genetic::step(double score, double fitness) {
     if (score >= maxScores && score != 0) {
         maxScores = score;
 
@@ -93,9 +111,7 @@ void Genetic::step(int score, int gameStepsCount) {
         }
     }
 
-    constexpr double FACTOR = 100.0d;
-    pool[currentChromosomeId++].fitness = double(score) * 10
-            + double(gameStepsCount) / FACTOR;
+    pool[currentChromosomeId++].fitness = fitness;
 
     if (currentChromosomeId >= pool.size()) {  // end of generation
         newGeneration();
