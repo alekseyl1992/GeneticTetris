@@ -9,7 +9,7 @@ namespace Tetris
 		each(i, j)
 			field[i][j] = 0;
 
-		figure.generate();
+        figure.generate(true);
 	}
 
 	Field::~Field()

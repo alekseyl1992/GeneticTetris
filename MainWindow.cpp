@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <QtWidgets/QCheckBox>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "main/GeneticMain.h"
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fieldView->setModel(tableModel);
     ui->fieldView->resizeColumnsToContents();
 
-    constexpr int chromosomesCount = 20;
+    constexpr int chromosomesCount = 140;
     constexpr int colsCount = 2;
     statsModel = new QStandardItemModel(chromosomesCount, colsCount, this);
 
@@ -44,14 +45,14 @@ MainWindow::MainWindow(QWidget *parent) :
     workerThread->start();
 
     QObject::connect(workerThread,
-                    &WorkerThread::fieldChanged,
-                    this,
-                    &MainWindow::renderField);
-
-    QObject::connect(workerThread,
                 &WorkerThread::statsChanged,
                 this,
                 &MainWindow::renderStats);
+
+    QObject::connect(ui->renderCheckBox,
+                     &QCheckBox::stateChanged,
+                     this,
+                     &MainWindow::renderCheckboxStateChanged);
 }
 
 void MainWindow::renderField(const Field& field) {
@@ -85,6 +86,21 @@ void MainWindow::renderStats(const Pool& pool) {
     }
 
     ui->statsView->repaint();
+}
+
+void MainWindow::renderCheckboxStateChanged(int state)
+{
+    if (state == 0) {
+        QObject::connect(workerThread,
+                        &WorkerThread::fieldChanged,
+                        this,
+                        &MainWindow::renderField);
+    } else {
+        QObject::disconnect(workerThread,
+                        &WorkerThread::fieldChanged,
+                        this,
+                        &MainWindow::renderField);
+    }
 }
 
 MainWindow::~MainWindow()

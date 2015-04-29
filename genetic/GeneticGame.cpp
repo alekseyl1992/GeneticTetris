@@ -29,6 +29,9 @@ namespace Tetris
                 input();
 
             gameOver = !field.update();
+
+            if (field.getScores() != 0 && genetic.getCurrentChromosomeId() == 0)
+                render();
         }
 
         return field.getScores();
@@ -62,9 +65,7 @@ namespace Tetris
 			speedUp = false; // disable speedUp
 			return true; // prevent from redundant redraw
 			break;
-		}
-
-        //render();
+        }
 
 		speedUp = false; // disable speedUp
 

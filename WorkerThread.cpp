@@ -7,7 +7,7 @@ WorkerThread::WorkerThread(int populationSize, QObject *parent) :
 
 void WorkerThread::run()
 {
-    Genetic genetic(populationSize, 1./.100);
+    Genetic genetic(populationSize, 1./.1000);
     genetic.init();
 
     loop = true;

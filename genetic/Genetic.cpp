@@ -8,7 +8,7 @@
 
 Genetic::Genetic(int populationSize, double mutationProbability)
     : populationSize(populationSize),
-      nnSizes({Field::fieldWidth * Field::fieldHeight, 10, 10, 10, (int) Button::_COUNT}),
+      nnSizes({Field::fieldWidth * Field::fieldHeight, 20, 10, 10, 10, (int) Button::_COUNT}),
       chromosomeSize(0),
       mutationProbability(mutationProbability),
       currentChromosomeId(-1) {
@@ -185,13 +185,14 @@ void Genetic::newGeneration() {
         return lhs.fitness > rhs.fitness;
     });
     
-    size_t middle = pool.size() / 2;
-    for (size_t i = middle; i < pool.size(); ++i) {
-        // HERE
-        auto& c1 = pool[randABexp(0, (int) middle)];
-        auto& c2 = pool[randABexp(0, (int) middle)];
-        pool[i] = Chromosome::crossover(c1, c2);
-        pool[i].mutate(mutationProbability);
+    //size_t middle = pool.size() / 7;
+    for (size_t i = 0; i < pool.size(); ++i) {
+        auto& c1 = pool[randABexp(0, (int) pool.size())];
+        auto& c2 = pool[randABexp(0, (int) pool.size())];
+
+        int placePos = pool.size() - randABexp(0, (int) pool.size()) - 1;
+        pool[placePos] = Chromosome::crossover(c1, c2);
+        pool[placePos].mutate(mutationProbability);
     }
 }
 

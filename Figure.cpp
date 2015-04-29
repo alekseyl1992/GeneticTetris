@@ -13,11 +13,14 @@ namespace Tetris
 		srand(time(0));
     }
 
-	void Figure::generate()
+    void Figure::generate(bool resetOrder)
     {
         std::vector<int> figuresOrder = {0, 1, 2, 3, 4};
         static int id = 0;
+        if (resetOrder)
+            id = 0;
 
+        //int curId = 0;
         int curId = id++ % figuresOrder.size();
         //int curId = randAB(0, 5);
 

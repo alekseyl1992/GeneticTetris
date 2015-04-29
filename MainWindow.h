@@ -33,6 +33,7 @@ private:
 public slots:
     void renderField(const Field& field);
     void renderStats(const Pool &pool);
+    void renderCheckboxStateChanged(int state);
 };
 
 #endif // MAINWINDOW_H

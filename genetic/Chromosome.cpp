@@ -2,7 +2,7 @@
 #include "util.h"
 
 Chromosome::Chromosome(size_t size)
-    : genome(size), fitness(0) {
+    : genome(size) {
 
 }
 

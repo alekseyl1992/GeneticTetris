@@ -19,7 +19,7 @@ int randAB(int a, int b) {
 int randABexp(int a, int b) {
     static std::default_random_engine generator;
 
-    std::exponential_distribution<double> distribution(1);
+    std::exponential_distribution<double> distribution(7);
     double id = 1;
     while (id >= 1.0) {
         id = distribution(generator);

@@ -40,7 +40,7 @@ namespace Tetris
 
 		int dx, dy, fieldWidth;
 		bool matrix[figureSize][figureSize];
-		void generate();
+        void generate(bool resetOrder=false);
 		void rotate(); // +90deg
 		void rotateBack(); // -90deg
 		bool collidesWith(int fi, int fj) const; // fi, fj - field coordinates
