@@ -185,14 +185,13 @@ void Genetic::newGeneration() {
         return lhs.fitness > rhs.fitness;
     });
     
-    //size_t middle = pool.size() / 7;
-    for (size_t i = 0; i < pool.size(); ++i) {
-        auto& c1 = pool[randABexp(0, (int) pool.size())];
-        auto& c2 = pool[randABexp(0, (int) pool.size())];
+    size_t middle = pool.size() / 7;
+    for (size_t i = middle; i < pool.size(); ++i) {
+        auto& c1 = pool[randABexp(0, middle)];
+        auto& c2 = pool[randABexp(0, middle)];
 
-        int placePos = pool.size() - randABexp(0, (int) pool.size()) - 1;
-        pool[placePos] = Chromosome::crossover(c1, c2);
-        pool[placePos].mutate(mutationProbability);
+        pool[i] = Chromosome::crossover(c1, c2);
+        pool[i].mutate(mutationProbability);
     }
 }
 

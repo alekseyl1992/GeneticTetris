@@ -10,19 +10,20 @@ namespace Tetris
 	Figure::Figure(int fieldWidth)
 		: fieldWidth(fieldWidth)
 	{
-		srand(time(0));
+        randAB(3, 5, 874);
     }
 
     void Figure::generate(bool resetOrder)
     {
-        std::vector<int> figuresOrder = {0, 1, 2, 3, 4};
+        //std::vector<int> figuresOrder = {3, 4};
         static int id = 0;
         if (resetOrder)
             id = 0;
 
         //int curId = 0;
-        int curId = id++ % figuresOrder.size();
+        //int curId = id++ % figuresOrder.size();
         //int curId = randAB(0, 5);
+        int curId = randAB(3, 5);
 
 		for (int i = 0; i < figureSize; ++i)
 			for (int j = 0; j < figureSize; ++j)

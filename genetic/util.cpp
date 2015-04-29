@@ -9,8 +9,11 @@ double rand01() {
     return distribution(generator);
 }
 
-int randAB(int a, int b) {
+int randAB(int a, int b, int reSeed) {
     static std::default_random_engine generator;
+
+    if (reSeed)
+        generator.seed(reSeed);
 
     std::uniform_int_distribution<int> distribution(a, b - 1);
     return distribution(generator);
